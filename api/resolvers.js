@@ -25,12 +25,13 @@ const resolveFunctions = {
   },
   Item: {
     itemOwner(item) {
-      return fetch(`http://localhost:3001/items/${item.itemOwner}`)
+      return fetch(`http://localhost:3001/users/${item.itemOwner}`)
       .then (response => response.json()
       .catch(errors => console.log(errors))
     )},
     borrower(item){
-      return fetch(`http://localhost:3001/items/${item.borrower}`)
+      if (!item.borrower) return null;
+      return fetch(`http://localhost:3001/users/${item.borrower}`)
       .then (response => response.json()
       .catch(errors => console.log(errors))
     )}

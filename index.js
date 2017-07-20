@@ -4,11 +4,13 @@ import {
     graphqlExpress,
     graphiqlExpress
 } from 'graphql-server-express';
-
+import cors from 'cors';
 import schema from './api/schema';
 
 const GQL_PORT = 4000;
 const app = express();
+
+app.use('*', cors());
 
 app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
 
