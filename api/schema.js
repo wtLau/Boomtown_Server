@@ -10,26 +10,28 @@ const typeDefs = `
     id: ID!
     title: String!
     description: String
-    imageUrl: String
-    tags: []
-    itemOwner: User
-    createdOn: Int
-    available: Boolean
-    borrower: String
+    imageUrl: String!
+    tags: [String]
+    itemOwner: User!
+    createdOn: Int!
+    available: Boolean!
+    borrower: User
   }
 
   type User {
     id: ID!
-    email: String
+    email: String!
     fullName: String!
     bio: String
+    items: [Item]
+    borrowed: [Item]
   }
 
   type Query {
     items: [Item]
-    items(id: ID!): Item
+    item(id: ID!): Item
     users: [User]
-    users(id: ID!): User
+    user(id: ID!): User
   }
 `;
 

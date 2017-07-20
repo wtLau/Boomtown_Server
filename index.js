@@ -10,7 +10,7 @@ import schema from './api/schema';
 const GQL_PORT = 4000;
 const app = express();
 
-app.use('/ghraphql', bodyParser.json(), graphqlExpress({ schema }));
+app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
 
 app.use('/graphiql', graphiqlExpress({
     endpointURL: '/graphql'
