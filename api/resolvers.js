@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import * from './jsonServer';
 
 const resolveFunctions = {
   Query: {
@@ -47,6 +48,29 @@ const resolveFunctions = {
       .then (response => response.json()
       .catch(errors => console.log(errors))
     )}
+  },
+  Mutation: {
+    addItem(root, args) {
+      const newItem = {
+        title: args.title,
+        description: args.description,
+        imageUrl: args.imageUrl,
+        tags: args.tags,
+        itemOwner: args.itemOwner,
+        createdOn: Math.floor(Date.now() / 1000),
+        available: true,
+        borrower: null
+      };
+      return fetch('http://localhost:3001/items/', {
+        method: 'POST',
+        header: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newItem)
+      })
+      .then(response => response.json())
+      .catch(errors => console.log(errors))
+    }
   }
 };
 export default resolveFunctions;

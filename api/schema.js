@@ -33,6 +33,16 @@ const typeDefs = `
     users: [User]
     user(id: ID!): User
   }
+
+  type Mutation {
+    addItem (
+      title: String
+      description: String!
+      imageUrl: String
+      tags: [String]
+      itemOwner: ID!
+    ): Item
+  }
 `;
 
 // call typedefs we define up there(typeDefs: typeDefs)
