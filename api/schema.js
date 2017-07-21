@@ -5,7 +5,6 @@ import resolvers from './resolvers';
 // define types in template string
 //  Query on different types of data
 const typeDefs = `
-
   type Item {
     id: ID!
     title: String!
@@ -33,10 +32,9 @@ const typeDefs = `
     users: [User]
     user(id: ID!): User
   }
-
   type Mutation {
     addItem (
-      title: String
+      title: String!
       description: String!
       imageUrl: String
       tags: [String]
