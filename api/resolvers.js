@@ -16,7 +16,7 @@ const resolveFunctions = {
     },
 
     user(root, { id }) {
-      return getUsers(id)
+      return getUser(id)
     }
   },
 
@@ -33,8 +33,9 @@ const resolveFunctions = {
   },
 
   User: {
-    items(user){
-      return getItemOwner(user)
+    items(user, args, context){
+      // return getUserOwnItem(user.id)
+      return context.loaders.UserOwnItem.load(user.id)
     },
     borrowed(user){
       return getBorrowed(user.id)

@@ -10,3 +10,8 @@
 
 server
 ```npm i -S graphql graphql-server-express graphql-tools```
+
+```npm install --save dataloader```
+
+```npm install pg```
+

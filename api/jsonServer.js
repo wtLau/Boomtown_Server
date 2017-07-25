@@ -25,8 +25,8 @@ export const getUser = (id) => {
     .catch(errors => console.log(errors))
 }
 
-export const getItemOwner = (user) => {
-  return fetch(`http://localhost:3001/items/?itemOwner=${user.id}`)
+export const getUserOwnItem = (id) => {
+  return fetch(`http://localhost:3001/items/?itemOwner=${id}`)
     .then (response => response.json())
     .catch(errors => console.log(errors))
 }
