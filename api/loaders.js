@@ -11,7 +11,6 @@ export default function() {
       Promise.all(ids.map(id => getBorrowed(id)))
     )),
     getUser: new DataLoader(ids => {
-      
       return Promise.all(ids.map(id => getUser(id)))
     }),
     getItem: new DataLoader(ids => (
