@@ -7,23 +7,25 @@ export function getItems () {
     .catch(errors => console.log(errors))
 }
 
-export const getItem = (id) => {
-  return fetch(`http://localhost:3001/items/${id}`)
-    .then(response => response.json())
-    .catch(errors => console.log(errors))
-}
+// export const getItem = (id) => {
+//   return fetch(`http://localhost:3001/items/${id}`)
+//     .then(response => response.json())
+//     .catch(errors => console.log(errors))
+// }
 
 export const getUsers = () => {
   return fetch(`http://localhost:3001/users/`)
-    .then(response => response.json())
+    .then(response => {
+      return response.json()
+    })
     .catch(errors => console.log(errors))
 }
 
-export const getUser = (id) => {
-  return fetch(`http://localhost:3001/users/${id}`)
-    .then(response => response.json())
-    .catch(errors => console.log(errors))
-}
+// export const getUser = (id) => {
+//   return fetch(`http://localhost:3001/users/${id}`)
+//     .then(response => response.json())
+//     .catch(errors => console.log(errors))
+// }
 
 export const getUserOwnItem = (id) => {
   return fetch(`http://localhost:3001/items/?itemOwner=${id}`)

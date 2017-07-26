@@ -15,3 +15,5 @@ server
 
 ```npm install pg```
 
+``` npm install dotenv --sav```
+

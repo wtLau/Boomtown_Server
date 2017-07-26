@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
-import { getItems, getItem, getUsers, getUser, getItemOwner, getBorrowed } from './jsonServer.js';
+import { getItems, getUsers, getItemOwner, getBorrowed } from './jsonServer.js';
+import pool from '../database/index'
 
 const resolveFunctions = {
   Query: {
@@ -7,16 +8,16 @@ const resolveFunctions = {
       return getItems();
     },
 
-    item(root, { id }) {
-      return getItem(id)
+    item(root, { id }, context) {
+      return context.loaders.getItem.load(id)
     },
 
     users(){
       return getUsers()
     },
 
-    user(root, { id }) {
-      return getUser(id)
+    user(root, { id }, context) {
+      return context.loaders.getUser.load(id);
     }
   },
 
