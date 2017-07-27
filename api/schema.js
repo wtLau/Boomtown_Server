@@ -6,7 +6,7 @@ import resolvers from './resolvers';
 //  Query on different types of data
 const typeDefs = `
   type Item {
-    itemid: ID!
+    id: ID!
     title: String!
     description: String
     imageurl: String!

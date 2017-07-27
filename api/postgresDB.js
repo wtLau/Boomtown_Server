@@ -1,13 +1,13 @@
 import pool from '../database/index'
 import admin from '../config/firebase'
 
-function renameId(rows) {
-  return rows.map((row) => Object.keys(row).reduce((acc, usr) =>{
-    acc = { ...row, id: row.userid }
-    delete acc.userid
-    return acc
-  }), {})
-}
+// function renameId(rows) {
+//   return rows.map((row) => Object.keys(row).reduce((acc, usr) =>{
+//     acc = { ...row, id: row.userid }
+//     delete acc.userid
+//     return acc
+//   }), {})
+// }
 
 // READ HELPERS
 
@@ -22,7 +22,7 @@ export const getUsers = () => {
 export const getUser = (id) => {
   return new Promise(async(resolve, reject) => {
     try {
-      let user = await pool.query(`SELECT * from user_profiles WHERE userid='${id}'`)
+      let user = await pool.query(`SELECT * from user_profiles WHERE id='${id}'`)
       const fbUser = await admin.auth().getUser(id)
       user = renameId(user.rows)[0]
       user = {...user, email: fbUser.email }
@@ -43,7 +43,7 @@ export const getItems = () => {
 }
 
 export const getItem = (id) => {
-  return pool.query(`SELECT * from items WHERE ownerid='${id}'`)
+  return pool.query(`SELECT * from items WHERE id='${id}'`)
     .then(response => {
       return renameId(response.rows)[0]
     })
@@ -52,19 +52,19 @@ export const getItem = (id) => {
 
 export const getUserOwnItem = (id) => {
   return pool.query(`SELECT * from items WHERE itemowner='${id}')`)
-    .then (response => response.json())
+    .then (response => response.rows[0])
     .catch(errors => console.log(errors))
 }
 
 export const getBorrowed = (id) => {
   return pool.query(`SELECT * from items WHERE borrower='${id}')`)
-    .then (response => response.json())
+    .then (response => response.rows)
     .catch(errors => console.log(errors))
 }
 
 export const getTags = () => {
   return pool.query(`SELECT * from tags`)
-    .then (response => response.json())
+    .then (response => response.rows)
     .catch(errors => console.log(errors))
 }
 
@@ -75,12 +75,12 @@ export const getItemAllTags = (itemId) => {
       `SELECT tags.title 
         from tags
         	inner join itemtags
-        		on itemtags.tagid=tags.tagid
+        		on itemtags.tagid=tags.id
           where
             itemtags.itemid=${itemId}
       `
     )
-      .then (response => response.json())
+      .then (response => response.rows)
       .catch(errors => console.log(errors))
 }
 
@@ -90,11 +90,11 @@ export const getTagAllItems = (tagId) => {
     `SELECT * 
       from items
         inner join itemtags
-          on itemtags.itemid=items.itemid
+          on itemtags.itemid=items.id
         where
           itemtags.tagid=${tagId}
   `)
-    .then (response => response.json())
+    .then (response => response.rows)
     .catch(errors => console.log(errors))
 }
 
@@ -110,7 +110,7 @@ export const createUser= (args, context) => {
         password: args.password
       })
       const query = {
-        text: 'INSERT INTO user_profiles(fullname, bio, userid) VALUES($1, $2, $3) RETURNING *',
+        text: 'INSERT INTO user_profiles(fullname, bio, id) VALUES($1, $2, $3) RETURNING *',
         values: [args.fullname, args.bio, fbUser.uid],
       }
       let pgUser = await pool.query(query)
@@ -125,6 +125,6 @@ export const createUser= (args, context) => {
 
 export const createItem = (title, imageurl, description, itemowner, ) => {
   return pool.query(`SELECT * from items WHERE borrower='${id}')`)
-    .then (response => response.json())
+    .then (response => response.rows)
     .catch(errors => console.log(errors))
 }
