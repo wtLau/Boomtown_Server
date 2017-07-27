@@ -9,6 +9,8 @@ function renameId(rows) {
   }), {})
 }
 
+// READ HELPERS
+
 export const getUsers = () => {
   return pool.query(`SELECT * from user_profiles`)
     .then(response => {
@@ -49,7 +51,7 @@ export const getItem = (id) => {
 }
 
 export const getUserOwnItem = (id) => {
-  return pool.query(`SELECT * from items WHERE itemOwner='${id}')`)
+  return pool.query(`SELECT * from items WHERE itemowner='${id}')`)
     .then (response => response.json())
     .catch(errors => console.log(errors))
 }
@@ -59,6 +61,40 @@ export const getBorrowed = (id) => {
     .then (response => response.json())
     .catch(errors => console.log(errors))
 }
+
+// ALL TAGS FOR A GIVEN ITEM
+export const getItemAllTags = (itemId) => {
+  return 
+    pool.query(
+      `SELECT tags.title 
+        from tags
+        	inner join itemtags
+        		on itemtags.tagid=tags.tagid
+          where
+            itemtags.itemid=${itemId}
+      `
+    )
+      .then (response => response.json())
+      .catch(errors => console.log(errors))
+}
+
+// ALL ITEMS FOR A GIVEN TAG
+export const getTagAllItems = (tagId) => {
+  return pool.query(
+    `SELECT * 
+      from items
+        inner join itemtags
+          on itemtags.itemid=items.itemid
+        where
+          itemtags.tagid=${tagId}
+  `)
+    .then (response => response.json())
+    .catch(errors => console.log(errors))
+}
+
+
+
+// WRITE HELPER
 
 export const createUser= (args, context) => {
   return new Promise(async(resolve, reject) => {
@@ -79,4 +115,10 @@ export const createUser= (args, context) => {
       reject(e)
     }
   })
+}
+
+export const createItem = (title, imageurl, description, itemowner, ) => {
+  return pool.query(`SELECT * from items WHERE borrower='${id}')`)
+    .then (response => response.json())
+    .catch(errors => console.log(errors))
 }

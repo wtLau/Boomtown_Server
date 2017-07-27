@@ -29,7 +29,8 @@ const resolveFunctions = {
     borrower(item, args, context){
       if (!item.borrower) return null;
       return context.loaders.getUser.load(item.borrower);
-    }
+    },
+    // tags: ()
   },
 
   User: {
