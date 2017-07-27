@@ -27,17 +27,17 @@ export const getItem = (id) => {
 //     .catch(errors => console.log(errors))
 // }
 
-export const getUserOwnItem = (id) => {
-  return fetch(`http://localhost:3001/items/?itemOwner=${id}`)
-    .then (response => response.json())
-    .catch(errors => console.log(errors))
-}
+// export const getUserOwnItem = (id) => {
+//   return fetch(`http://localhost:3001/items/?itemOwner=${id}`)
+//     .then (response => response.json())
+//     .catch(errors => console.log(errors))
+// }
 
-export const getBorrowed = (id) => {
-  return fetch(`http://localhost:3001/items/?borrower=${id}`)
-    .then (response => response.json())
-    .catch(errors => console.log(errors))
-}
+// export const getBorrowed = (id) => {
+//   return fetch(`http://localhost:3001/items/?borrower=${id}`)
+//     .then (response => response.json())
+//     .catch(errors => console.log(errors))
+// }
 
 export const postNewItem = () => {
   return fetch('http://localhost:3001/items/', {

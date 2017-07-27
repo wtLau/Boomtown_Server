@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import { getItemOwner, getBorrowed } from './jsonServer.js';
 import pool from '../database/index'
-import { getUsers, getItems, getUser, getItem, createUser } from './postgresDB';
+import { getUsers, getItems, getUser, getItem, createUser, getUserOwnItem, getBorrowed } from './postgresDB';
 
 
 const resolveFunctions = {
