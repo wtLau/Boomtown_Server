@@ -24,7 +24,7 @@ const resolveFunctions = {
 
   Item: {
     itemOwner(item, args, context) {
-      return context.loaders.getUser.load(item.itemOwner);
+      return context.loaders.getUser.load(item.itemowner);
     },
     borrower(item, args, context){
       if (!item.borrower) return null;
@@ -49,7 +49,7 @@ const resolveFunctions = {
         description: args.description,
         imageurl: args.imageurl,
         tags: args.tags,
-        itemOwner: args.itemOwner,
+        itemowner: args.itemowner,
         createdOn: Math.floor(Date.now() / 1000),
         available: true,
         borrower: null

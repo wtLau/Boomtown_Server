@@ -11,7 +11,7 @@ const typeDefs = `
     description: String
     imageurl: String!
     tags: [String]
-    itemOwner: User!
+    itemowner: User!
     createdOn: Int!
     available: Boolean!
     borrower: User
@@ -39,7 +39,7 @@ const typeDefs = `
       description: String!
       imageurl: String
       tags: [String]
-      itemOwner: ID!
+      itemowner: ID!
     ): Item
 
     addUser (
