@@ -23,7 +23,7 @@ const resolveFunctions = {
   },
 
   Item: {
-    itemOwner(item, args, context) {
+    itemowner(item, args, context) {
       return context.loaders.getUser.load(item.itemowner);
     },
     borrower(item, args, context){
