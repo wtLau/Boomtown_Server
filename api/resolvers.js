@@ -30,7 +30,7 @@ const resolveFunctions = {
       if (!item.borrower) return null;
       return context.loaders.getUser.load(item.borrower);
     },
-    // tags: ()
+    tags: ()
   },
 
   User: {
@@ -50,7 +50,7 @@ const resolveFunctions = {
         imageurl: args.imageurl,
         tags: args.tags,
         itemowner: args.itemowner,
-        createdOn: Math.floor(Date.now() / 1000),
+        created: Math.floor(Date.now() / 1000),
         available: true,
         borrower: null
       };

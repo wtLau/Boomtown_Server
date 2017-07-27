@@ -12,7 +12,7 @@ const typeDefs = `
     imageurl: String!
     tags: [String]
     itemowner: User!
-    createdOn: Int!
+    created: Int!
     available: Boolean!
     borrower: User
   }
