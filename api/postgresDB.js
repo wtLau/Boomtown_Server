@@ -48,11 +48,17 @@ export const getItem = (id) => {
     .catch(errors => console.log(errors))
 }
 
-// export const getUserOwnItem = (id) => {
-//   return pool.query(`SELECT * from items WHERE itemOwner=(ownerid='${id}')`)
-//     .then (response => response.json())
-//     .catch(errors => console.log(errors))
-// }
+export const getUserOwnItem = (id) => {
+  return pool.query(`SELECT * from items WHERE itemOwner='${id}')`)
+    .then (response => response.json())
+    .catch(errors => console.log(errors))
+}
+
+export const getBorrowed = (id) => {
+  return pool.query(`SELECT * from items WHERE borrower='${id}')`)
+    .then (response => response.json())
+    .catch(errors => console.log(errors))
+}
 
 export const createUser= (args, context) => {
   return new Promise(async(resolve, reject) => {
