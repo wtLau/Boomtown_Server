@@ -10,7 +10,7 @@ const typeDefs = `
     title: String!
     description: String
     imageurl: String!
-    tags: [String]
+    tags: [Tag]!
     itemowner: User!
     created: Int!
     available: Boolean!
@@ -26,11 +26,16 @@ const typeDefs = `
     borrowed: [Item]
   }
 
+  type Tag {
+    title: String!
+  }
+
   type Query {
     items: [Item]
     item(id: ID!): Item
     users: [User]
     user(id: ID!): User
+    tags: [Tag]
   }
 
   type Mutation {

@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import pool from '../database/index'
-import { getUsers, getItems, getUser, getItem, createUser, getUserOwnItem, getBorrowed } from './postgresDB';
+import { getUsers, getItems, getUser, getItem, createUser, getUserOwnItem, getBorrowed, getTags } from './postgresDB';
 
 
 const resolveFunctions = {
@@ -29,8 +29,7 @@ const resolveFunctions = {
     borrower(item, args, context){
       if (!item.borrower) return null;
       return context.loaders.getUser.load(item.borrower);
-    },
-    // tags: ()
+    }
   },
 
   User: {
@@ -39,6 +38,12 @@ const resolveFunctions = {
     },
     borrowed(user, args, context){
       return context.loaders.getBorrowed.load(user.id)
+    }
+  },
+
+  Tags: {
+    tags(item, { id }){
+      return getTags(id)
     }
   },
 

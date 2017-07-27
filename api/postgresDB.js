@@ -14,7 +14,7 @@ import admin from '../config/firebase'
 export const getUsers = () => {
   return pool.query(`SELECT * from user_profiles`)
     .then(response => {
-      return renameId(response.rows)
+      return response.rows
     })
     .catch(errors => {console.log(errors)})
 }
@@ -24,7 +24,7 @@ export const getUser = (id) => {
     try {
       let user = await pool.query(`SELECT * from user_profiles WHERE id='${id}'`)
       const fbUser = await admin.auth().getUser(id)
-      user = renameId(user.rows)[0]
+      user = user.rows
       user = {...user, email: fbUser.email }
       resolve(user)
     } catch(e) {
@@ -37,7 +37,7 @@ export const getUser = (id) => {
 export const getItems = () => {
   return pool.query(`SELECT * from items`)
     .then(response => {
-      return renameId(response.rows)      
+      return response.rows     
     })
     .catch(errors => console.log(errors))
 }
@@ -45,7 +45,7 @@ export const getItems = () => {
 export const getItem = (id) => {
   return pool.query(`SELECT * from items WHERE id='${id}'`)
     .then(response => {
-      return renameId(response.rows)[0]
+      return response.rows[0]
     })
     .catch(errors => console.log(errors))
 }
