@@ -1,5 +1,4 @@
 import fetch from 'node-fetch';
-import { getItemOwner, getBorrowed } from './jsonServer.js';
 import pool from '../database/index'
 import { getUsers, getItems, getUser, getItem, createUser, getUserOwnItem, getBorrowed } from './postgresDB';
 
@@ -11,7 +10,7 @@ const resolveFunctions = {
     },
 
     item(root, { id }, context) {
-      return context.loaders.getItem(id)
+      return context.loaders.getItem.load(id)
     },
 
     users(){
