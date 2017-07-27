@@ -1,7 +1,8 @@
 import fetch from 'node-fetch';
-import { getItems, getItem, getItemOwner, getBorrowed } from './jsonServer.js';
+import { getItemOwner, getBorrowed } from './jsonServer.js';
 import pool from '../database/index'
-import { getUsers } from './postgresDB';
+import { getUsers, getItems, getUser, getItem, createUser } from './postgresDB';
+
 
 const resolveFunctions = {
   Query: {
@@ -9,8 +10,8 @@ const resolveFunctions = {
       return getItems();
     },
 
-    item(root, { id }) {
-      return getItem(id)
+    item(root, { id }, context) {
+      return context.loaders.getItem(id)
     },
 
     users(){
@@ -23,24 +24,21 @@ const resolveFunctions = {
   },
 
   Item: {
-    // getting itemOwner from users
-    itemOwner(item) {
-      return getUser(item.itemOwner);
+    itemOwner(item, args, context) {
+      return context.loaders.getUser.load(item.itemOwner);
     },
-    //getting borrower  from users
-    borrower(item){
+    borrower(item, args, context){
       if (!item.borrower) return null;
-      return getUser(item.borrower);
+      return context.loaders.getUser.load(item.borrower);
     }
   },
 
   User: {
     items(user, args, context){
-      // return getUserOwnItem(user.id)
-      return context.loaders.UserOwnItem.load(user.id)
+      return context.loaders.getUserOwnItem.load(user.id)
     },
-    borrowed(user){
-      return getBorrowed(user.id)
+    borrowed(user, args, context){
+      return context.loaders.getBorrowed.load(user.id)
     }
   },
 
@@ -49,7 +47,7 @@ const resolveFunctions = {
       const newItem = {
         title: args.title,
         description: args.description,
-        imageUrl: args.imageUrl,
+        imageurl: args.imageurl,
         tags: args.tags,
         itemOwner: args.itemOwner,
         createdOn: Math.floor(Date.now() / 1000),
@@ -57,8 +55,11 @@ const resolveFunctions = {
         borrower: null
       };
       return postNewItem();
+    },
+    addUser(root, args, context) {
+      return createUser(args, context)
     }
   }
 };
 
-export default resolveFunctions;
+export default resolveFunctions; 

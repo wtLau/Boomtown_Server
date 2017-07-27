@@ -18,15 +18,18 @@ if(process.env.NODE_ENV === 'production') {
   const root = `${_dirname}/public`
   app.use(express.static(root))
   app.use(fallback('index.html', { root }))
+} else {
+  app.use('*', cors({ origin: 'http://localhost:3000'}));
 }
 
-app.use('*', cors());
+app.use('*',  bodyParser.json());
 
-app.use('/graphql', bodyParser.json(), graphqlExpress({ 
-  schema,
-  //any additional request to pass into resolver, has to be object
-  context: {
-    loaders: createLoaders()
+app.use('/graphql', graphqlExpress(function(req, res){ 
+  return {
+    schema,
+    context: {
+      loaders: createLoaders()
+    }
   }
 }));
 

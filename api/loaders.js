@@ -4,7 +4,7 @@ import { getUser, getItem } from './postgresDB';
 
 export default function() {
   return {
-    UserOwnItem: new DataLoader(ids => (
+    getUserOwnItem: new DataLoader(ids => (
       Promise.all(ids.map(id => getUserOwnItem(id)))
     )),
     getBorrowed: new DataLoader(ids => (

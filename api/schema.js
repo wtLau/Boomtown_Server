@@ -6,10 +6,10 @@ import resolvers from './resolvers';
 //  Query on different types of data
 const typeDefs = `
   type Item {
-    id: ID!
+    itemid: ID!
     title: String!
     description: String
-    imageUrl: String!
+    imageurl: String!
     tags: [String]
     itemOwner: User!
     createdOn: Int!
@@ -20,7 +20,7 @@ const typeDefs = `
   type User {
     id: ID!
     email: String!
-    fullName: String!
+    fullname: String!
     bio: String
     items: [Item]
     borrowed: [Item]
@@ -32,14 +32,22 @@ const typeDefs = `
     users: [User]
     user(id: ID!): User
   }
+
   type Mutation {
     addItem (
       title: String!
       description: String!
-      imageUrl: String
+      imageurl: String
       tags: [String]
       itemOwner: ID!
     ): Item
+
+    addUser (
+      fullname: String!
+      email: String!
+      bio: String
+      password: String!
+    ): User
   }
 `;
 

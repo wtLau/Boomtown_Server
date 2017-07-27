@@ -17,3 +17,5 @@ server
 
 ``` npm install dotenv --sav```
 
+``` npm install firebase -admin --save```
+
