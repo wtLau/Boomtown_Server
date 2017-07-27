@@ -30,7 +30,7 @@ const resolveFunctions = {
       if (!item.borrower) return null;
       return context.loaders.getUser.load(item.borrower);
     },
-    tags: ()
+    // tags: ()
   },
 
   User: {

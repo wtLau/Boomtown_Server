@@ -62,7 +62,11 @@ export const getBorrowed = (id) => {
     .catch(errors => console.log(errors))
 }
 
-export const 
+export const getTags = () => {
+  return pool.query(`SELECT * from tags`)
+    .then (response => response.json())
+    .catch(errors => console.log(errors))
+}
 
 // ALL TAGS FOR A GIVEN ITEM
 export const getItemAllTags = (itemId) => {
