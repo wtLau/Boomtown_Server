@@ -1,6 +1,6 @@
 import DataLoader from 'dataloader';
-import { getUserOwnItem, getBorrowed } from './jsonServer';
-import { getUser, getItem } from './postgresDB';
+// import { getUserOwnItem, getBorrowed } from './jsonServer';
+import { getUser, getItem, getUserOwnItem, getBorrowed } from './postgresDB';
 
 export default function() {
   return {

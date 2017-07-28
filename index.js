@@ -7,14 +7,14 @@ import {
 } from 'graphql-server-express';
 import cors from 'cors';
 import schema from './api/schema';
-import createLoaders from './api/loaders'
+import createLoaders from './api/loaders';
+import firebaseAuthMiddleware from './api/middleware';
 
 const GQL_PORT = 4000;
 const PORT = process.env.PORT;
 const app = express();
 
 if(process.env.NODE_ENV === 'production') {
-
   const root = `${_dirname}/public`
   app.use(express.static(root))
   app.use(fallback('index.html', { root }))
@@ -23,6 +23,8 @@ if(process.env.NODE_ENV === 'production') {
 }
 
 app.use('*',  bodyParser.json());
+
+app.use('/graphql', firebaseAuthMiddleware);
 
 app.use('/graphql', graphqlExpress(function(req, res){ 
   return {
