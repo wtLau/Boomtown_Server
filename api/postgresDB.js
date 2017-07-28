@@ -64,19 +64,15 @@ export const getBorrowed = (id) => {
 
 // ALL TAGS FOR A GIVEN ITEM
 export const getItemAllTags = (itemId) => {
-  return 
-    pool.query(
-      `SELECT tags.title 
-        from tags
+  return pool.query(
+      `SELECT tags.title from tags
         	inner join itemtags
         		on itemtags.tagid=tags.id
           where
             itemtags.itemid=${itemId}
-      `
-    )
-      .then (response => {
-        return response.rows})
-      .catch(errors => console.log(errors))
+      `)
+      .then (response => response.rows)
+      .catch((errors) => console.log(errors))
 }
 
 // ALL ITEMS FOR A GIVEN TAG
