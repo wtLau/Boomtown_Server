@@ -24,7 +24,7 @@ export const getUser = (id) => {
     try {
       let user = await pool.query(`SELECT * from user_profiles WHERE id='${id}'`)
       const fbUser = await admin.auth().getUser(id)
-      user = user.rows
+      user = user.rows[0]
       user = {...user, email: fbUser.email }
       resolve(user)
     } catch(e) {
@@ -51,19 +51,13 @@ export const getItem = (id) => {
 }
 
 export const getUserOwnItem = (id) => {
-  return pool.query(`SELECT * from items WHERE itemowner='${id}')`)
-    .then (response => response.rows[0])
-    .catch(errors => console.log(errors))
-}
-
-export const getBorrowed = (id) => {
-  return pool.query(`SELECT * from items WHERE borrower='${id}')`)
+  return pool.query(`SELECT * from items WHERE itemowner='${id}'`)
     .then (response => response.rows)
     .catch(errors => console.log(errors))
 }
 
-export const getTags = () => {
-  return pool.query(`SELECT * from tags`)
+export const getBorrowed = (id) => {
+  return pool.query(`SELECT * from items WHERE borrower='${id}'`)
     .then (response => response.rows)
     .catch(errors => console.log(errors))
 }
@@ -80,7 +74,8 @@ export const getItemAllTags = (itemId) => {
             itemtags.itemid=${itemId}
       `
     )
-      .then (response => response.rows)
+      .then (response => {
+        return response.rows})
       .catch(errors => console.log(errors))
 }
 
@@ -101,7 +96,6 @@ export const getTagAllItems = (tagId) => {
 
 
 // WRITE HELPER
-
 export const createUser= (args, context) => {
   return new Promise(async(resolve, reject) => {
     try {
@@ -123,8 +117,35 @@ export const createUser= (args, context) => {
   })
 }
 
-export const createItem = (title, imageurl, description, itemowner, ) => {
-  return pool.query(`SELECT * from items WHERE borrower='${id}')`)
-    .then (response => response.rows)
-    .catch(errors => console.log(errors))
+
+export const postNewItem = (args, context) => {
+  return new Promise( async (resolve, reject) => {
+    try {
+      const itemQuery = {
+        text: 
+          'INSERT INTO items( title, imageurl, itemowner, description, created) VALUES($1, $2, $3, $4, $5) RETURNING *',
+        values: 
+          [ args.title, args.imageurl, args.itemowner, args.description, args.created]
+      }
+      const newItem = await pool.query(itemQuery)
+
+     
+      const insertTag = (tags) => {
+        return tags.map(tag => {
+          return `(${newItem.rows[0].id}, ${tag.id})`
+        }).join(',')
+      }
+     
+      const tagQuery = {
+        text: 
+          `INSERT INTO itemtags(itemid, tagid) VALUES ${insertTag(args.tags)}`
+      }
+
+      const tags = await pool.query(tagQuery)
+
+      resolve({id: newItem.rows[0].id})
+    } catch(e) {
+      reject(e)
+    }
+  })
 }

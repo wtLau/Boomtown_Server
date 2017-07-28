@@ -10,7 +10,7 @@ const typeDefs = `
     title: String!
     description: String
     imageurl: String!
-    tags: [Tag]!
+    tags: [Tags]!
     itemowner: User!
     created: Int!
     available: Boolean!
@@ -26,7 +26,12 @@ const typeDefs = `
     borrowed: [Item]
   }
 
-  type Tag {
+  input AssignedTag {
+    id: Int!
+  }
+
+  type Tags {
+    id: Int!
     title: String!
   }
 
@@ -35,7 +40,7 @@ const typeDefs = `
     item(id: ID!): Item
     users: [User]
     user(id: ID!): User
-    tags: [Tag]
+    tags: [Tags]
   }
 
   type Mutation {
@@ -43,7 +48,7 @@ const typeDefs = `
       title: String!
       description: String!
       imageurl: String
-      tags: [String]
+      tags: [AssignedTag]!
       itemowner: ID!
     ): Item
 

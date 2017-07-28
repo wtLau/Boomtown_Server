@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import pool from '../database/index'
-import { getUsers, getItems, getUser, getItem, createUser, getUserOwnItem, getBorrowed, getTags } from './postgresDB';
+import { getUsers, getItems, getItem, createUser, getUserOwnItem, getBorrowed, getItemAllTags, postNewItem } from './postgresDB';
 
 
 const resolveFunctions = {
@@ -23,6 +23,9 @@ const resolveFunctions = {
   },
 
   Item: {
+    tags(item, args, context) {
+      return getItemAllTags(item.id);
+    },
     itemowner(item, args, context) {
       return context.loaders.getUser.load(item.itemowner);
     },
@@ -41,25 +44,9 @@ const resolveFunctions = {
     }
   },
 
-  Tags: {
-    tags(item, { id }){
-      return getTags(id)
-    }
-  },
-
   Mutation: {
     addItem(root, args) {
-      const newItem = {
-        title: args.title,
-        description: args.description,
-        imageurl: args.imageurl,
-        tags: args.tags,
-        itemowner: args.itemowner,
-        created: Math.floor(Date.now() / 1000),
-        available: true,
-        borrower: null
-      };
-      return postNewItem();
+      return postNewItem(args);
     },
     addUser(root, args, context) {
       return createUser(args, context)
